@@ -3,7 +3,9 @@ import '../../../../data/datasources/topic_service.dart';
 import '../../../../data/models/topic_model.dart';
 
 class TopicsPage extends StatefulWidget {
-  const TopicsPage({super.key});
+  final String? userLevel; // Level của user để lọc bài học
+
+  const TopicsPage({super.key, this.userLevel});
 
   @override
   State<TopicsPage> createState() => _TopicsPageState();
@@ -111,12 +113,11 @@ class _TopicsPageState extends State<TopicsPage> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: InkWell(
         onTap: () {
-          // TODO: Navigate to topic detail/lessons
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('Đã chọn: ${topic.name}'),
-              duration: const Duration(seconds: 1),
-            ),
+          // Navigate to topic lessons với userLevel
+          Navigator.pushNamed(
+            context,
+            '/topic-lessons',
+            arguments: {'topic': topic, 'userLevel': widget.userLevel},
           );
         },
         borderRadius: BorderRadius.circular(12),

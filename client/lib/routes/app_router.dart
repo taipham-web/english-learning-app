@@ -3,9 +3,14 @@ import '../features/home/presentation/pages/home_page.dart';
 import '../features/auth/presentation/pages/login_page.dart';
 import '../features/auth/presentation/pages/register_page.dart';
 import '../features/topics/presentation/pages/topics_page.dart';
+import '../features/topics/presentation/pages/topic_lessons_page.dart';
+import '../features/topics/presentation/pages/lesson_detail_page.dart';
 import '../features/profile/presentation/pages/profile_page.dart';
 import '../features/admin/presentation/pages/admin_home_page.dart';
 import '../features/admin/presentation/pages/admin_topics_page.dart';
+import '../features/admin/presentation/pages/admin_topic_lessons_page.dart';
+import '../data/models/topic_model.dart';
+import '../data/models/lesson_model.dart';
 
 class AppRouter {
   static const String login = '/';
@@ -17,9 +22,14 @@ class AppRouter {
   // Admin routes
   static const String adminHome = '/admin';
   static const String adminTopics = '/admin/topics';
+  static const String adminTopicLessons = '/admin/topic-lessons';
   static const String adminLessons = '/admin/lessons';
   static const String adminQuizzes = '/admin/quizzes';
   static const String adminUsers = '/admin/users';
+
+  // Student routes
+  static const String topicLessons = '/topic-lessons';
+  static const String lessonDetail = '/lesson-detail';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -31,7 +41,10 @@ class AppRouter {
         final args = settings.arguments as Map<String, dynamic>?;
         return MaterialPageRoute(builder: (_) => HomePage(user: args?['user']));
       case topics:
-        return MaterialPageRoute(builder: (_) => const TopicsPage());
+        final args = settings.arguments as Map<String, dynamic>?;
+        return MaterialPageRoute(
+          builder: (_) => TopicsPage(userLevel: args?['userLevel'] as String?),
+        );
       case profile:
         final args = settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(
@@ -46,6 +59,12 @@ class AppRouter {
         );
       case adminTopics:
         return MaterialPageRoute(builder: (_) => const AdminTopicsPage());
+      case adminTopicLessons:
+        final args = settings.arguments as Map<String, dynamic>;
+        return MaterialPageRoute(
+          builder: (_) =>
+              AdminTopicLessonsPage(topic: args['topic'] as TopicModel),
+        );
       case adminLessons:
         return MaterialPageRoute(
           builder: (_) => const Scaffold(
@@ -63,6 +82,22 @@ class AppRouter {
           builder: (_) => const Scaffold(
             body: Center(child: Text('Quản lý Người dùng - Đang phát triển')),
           ),
+        );
+
+      // Student routes
+      case topicLessons:
+        final args = settings.arguments as Map<String, dynamic>;
+        return MaterialPageRoute(
+          builder: (_) => TopicLessonsPage(
+            topic: args['topic'] as TopicModel,
+            userLevel: args['userLevel'] as String?,
+          ),
+        );
+      case lessonDetail:
+        final args = settings.arguments as Map<String, dynamic>;
+        return MaterialPageRoute(
+          builder: (_) =>
+              LessonDetailPage(lesson: args['lesson'] as LessonModel),
         );
 
       default:
