@@ -1,0 +1,20 @@
+# Node modules
+node_modules/
+.env
+
+# Mac system files
+.DS_Store
+
+# Logs
+npm-debug.log*
+
+# Flutter/Dart (Nếu dùng Flutter)
+.dart_tool/
+.packages
+build/
+.pub-cache/
+.pub/
+
+# IDE
+.vscode/
+.idea/
