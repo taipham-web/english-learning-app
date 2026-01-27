@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import '../../../../core/utils/auth_storage.dart';
 import '../../../../data/datasources/stats_service.dart';
+import '../../../auth/presentation/pages/login_page.dart';
 
 class AdminHomePage extends StatefulWidget {
-  final Map<String, dynamic>? user;
+  final dynamic user;
 
   const AdminHomePage({super.key, this.user});
 
@@ -18,6 +20,18 @@ class _AdminHomePageState extends State<AdminHomePage> {
   int _lessonsCount = 0;
   int _quizzesCount = 0;
   bool _isLoading = true;
+
+  String get userName {
+    if (widget.user == null) return 'Admin';
+    if (widget.user is Map) return widget.user['name'] ?? 'Admin';
+    return widget.user.name ?? 'Admin';
+  }
+
+  int? get userId {
+    if (widget.user == null) return null;
+    if (widget.user is Map) return widget.user['id'];
+    return widget.user.id;
+  }
 
   @override
   void initState() {
@@ -46,9 +60,6 @@ class _AdminHomePageState extends State<AdminHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final userName = widget.user?['name'] ?? 'Admin';
-    final userId = widget.user?['id'];
-
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
@@ -410,9 +421,13 @@ class _AdminHomePageState extends State<AdminHomePage> {
             child: Text('Hủy', style: TextStyle(color: Colors.grey[600])),
           ),
           TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-              Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
+            onPressed: () async {
+              await AuthStorage.logout();
+              if (!context.mounted) return;
+              Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(builder: (_) => const LoginPage()),
+                (route) => false,
+              );
             },
             child: const Text('Đăng xuất', style: TextStyle(color: Colors.red)),
           ),

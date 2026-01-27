@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../core/utils/auth_storage.dart';
 import '../../../../data/datasources/user_service.dart';
 import '../../../../data/models/user_model.dart';
 import 'package:intl/intl.dart';
@@ -476,7 +477,9 @@ class _ProfilePageState extends State<ProfilePage> {
             child: Text('Hủy', style: TextStyle(color: Colors.grey[600])),
           ),
           TextButton(
-            onPressed: () {
+            onPressed: () async {
+              await AuthStorage.logout();
+              if (!context.mounted) return;
               Navigator.pop(context); // Close dialog
               Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
             },

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../../data/datasources/lesson_service.dart';
 import '../../../../data/models/lesson_model.dart';
 import '../../../../data/models/topic_model.dart';
+import '../../../../routes/app_router.dart';
 
 class AdminTopicLessonsPage extends StatefulWidget {
   final TopicModel topic;
@@ -254,9 +255,28 @@ class _AdminTopicLessonsPageState extends State<AdminTopicLessonsPage> {
               _showEditLessonDialog(lesson);
             } else if (value == 'delete') {
               _showDeleteConfirmDialog(lesson);
+            } else if (value == 'vocabulary') {
+              Navigator.pushNamed(
+                context,
+                AppRouter.adminLessonVocabulary,
+                arguments: {'lesson': lesson},
+              );
             }
           },
           itemBuilder: (context) => [
+            const PopupMenuItem(
+              value: 'vocabulary',
+              child: Row(
+                children: [
+                  Icon(Icons.translate, size: 20, color: Color(0xFF6C63FF)),
+                  SizedBox(width: 8),
+                  Text(
+                    'Quản lý từ vựng',
+                    style: TextStyle(color: Color(0xFF6C63FF)),
+                  ),
+                ],
+              ),
+            ),
             const PopupMenuItem(
               value: 'edit',
               child: Row(
@@ -421,7 +441,8 @@ class _AdminTopicLessonsPageState extends State<AdminTopicLessonsPage> {
       text: lesson.videoUrl ?? '',
     );
     String selectedLevel = lesson.level;
-    int difficultyScore = lesson.difficultyScore;
+    // Clamp giá trị difficultyScore để đảm bảo nằm trong khoảng 1-10
+    int difficultyScore = lesson.difficultyScore.clamp(1, 10);
 
     showDialog(
       context: context,

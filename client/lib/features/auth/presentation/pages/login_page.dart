@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import '../../../../common/widgets/custom_text_field.dart';
 import '../../../../core/utils/validators.dart';
+import '../../../../core/utils/auth_storage.dart';
 import '../../../../data/datasources/auth_service.dart';
+import '../../../../data/models/user_model.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -44,8 +46,13 @@ class _LoginPageState extends State<LoginPage> {
       if (!mounted) return;
 
       if (result['success']) {
-        final user = result['user'];
-        final role = user?['role'] ?? 'student';
+        final userData = result['user'];
+        final user = UserModel.fromJson(userData);
+
+        // Lưu thông tin đăng nhập
+        await AuthStorage.saveUser(user);
+
+        if (!mounted) return;
 
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -55,7 +62,7 @@ class _LoginPageState extends State<LoginPage> {
         );
 
         // Điều hướng theo role
-        if (role == 'admin') {
+        if (user.role == 'admin') {
           Navigator.pushReplacementNamed(
             context,
             '/admin',

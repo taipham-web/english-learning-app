@@ -1,24 +1,66 @@
 import 'package:flutter/material.dart';
+import '../../../../core/utils/auth_storage.dart';
+import '../../../auth/presentation/pages/login_page.dart';
 
-class HomePage extends StatelessWidget {
-  final Map<String, dynamic>? user;
+class HomePage extends StatefulWidget {
+  final dynamic user;
 
   const HomePage({super.key, this.user});
 
   @override
-  Widget build(BuildContext context) {
-    final userName = user?['name'] ?? 'Bạn';
-    final userId = user?['id'];
+  State<HomePage> createState() => _HomePageState();
+}
 
+class _HomePageState extends State<HomePage> {
+  String get userName {
+    if (widget.user == null) return 'Bạn';
+    if (widget.user is Map) return widget.user['name'] ?? 'Bạn';
+    return widget.user.name ?? 'Bạn';
+  }
+
+  int? get userId {
+    if (widget.user == null) return null;
+    if (widget.user is Map) return widget.user['id'];
+    return widget.user.id;
+  }
+
+  void _showLogoutDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        title: const Text('Đăng xuất'),
+        content: const Text('Bạn có chắc chắn muốn đăng xuất?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text('Hủy', style: TextStyle(color: Colors.grey[600])),
+          ),
+          TextButton(
+            onPressed: () async {
+              await AuthStorage.logout();
+              if (!context.mounted) return;
+              Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(builder: (_) => const LoginPage()),
+                (route) => false,
+              );
+            },
+            child: const Text('Đăng xuất', style: TextStyle(color: Colors.red)),
+          ),
+        ],
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('English Learning App'),
         actions: [
           IconButton(
             icon: const Icon(Icons.logout),
-            onPressed: () {
-              Navigator.pushReplacementNamed(context, '/');
-            },
+            onPressed: _showLogoutDialog,
             tooltip: 'Đăng xuất',
           ),
         ],
@@ -120,9 +162,7 @@ class HomePage extends StatelessWidget {
                   subtitle: 'Ôn tập từ vựng',
                   color: Colors.green,
                   onTap: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Đang phát triển...')),
-                    );
+                    Navigator.pushNamed(context, '/saved-vocabularies');
                   },
                 ),
                 _buildMenuCard(
