@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import '../../core/constants/app_constants.dart';
 
 class UserService {
   static const String _baseUrl = 'http://10.0.2.2:5000/api/v1';

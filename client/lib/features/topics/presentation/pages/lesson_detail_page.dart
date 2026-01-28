@@ -39,7 +39,7 @@ class _LessonDetailPageState extends State<LessonDetailPage>
 
   Future<void> _loadVocabularies() async {
     final result = await _vocabularyService.getVocabulariesByLessonId(
-      widget.lesson.id!,
+      widget.lesson.id,
     );
     if (mounted) {
       setState(() {

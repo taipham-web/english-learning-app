@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'core/themes/app_theme.dart';
 import 'core/constants/app_constants.dart';
 import 'core/utils/auth_storage.dart';
-import 'data/models/user_model.dart';
 import 'routes/app_router.dart';
 import 'features/auth/presentation/pages/login_page.dart';
 import 'features/navigation/presentation/pages/main_navigation_page.dart';

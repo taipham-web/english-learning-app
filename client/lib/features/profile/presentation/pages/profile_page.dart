@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import '../../../../core/utils/auth_storage.dart';
 import '../../../../data/datasources/user_service.dart';
 import '../../../../data/models/user_model.dart';
-import 'package:intl/intl.dart';
 
 class ProfilePage extends StatefulWidget {
   final int userId;
