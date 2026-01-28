@@ -5,7 +5,7 @@ import 'core/utils/auth_storage.dart';
 import 'data/models/user_model.dart';
 import 'routes/app_router.dart';
 import 'features/auth/presentation/pages/login_page.dart';
-import 'features/home/presentation/pages/home_page.dart';
+import 'features/navigation/presentation/pages/main_navigation_page.dart';
 import 'features/admin/presentation/pages/admin_home_page.dart';
 
 void main() {
@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
           if (user.role == 'admin') {
             return AdminHomePage(user: user);
           } else {
-            return HomePage(user: user);
+            return MainNavigationPage(user: user);
           }
         }
       }

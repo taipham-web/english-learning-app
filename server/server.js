@@ -13,6 +13,7 @@ const lessonRoutes = require("./src/routes/lesson.routes");
 const statsRoutes = require("./src/routes/stats.routes");
 const vocabularyRoutes = require("./src/routes/vocabulary.routes");
 const savedVocabularyRoutes = require("./src/routes/savedVocabulary.routes");
+const learningProgressRoutes = require("./src/routes/learningProgress.routes");
 
 // === MIDDLEWARE ===
 app.use(cors());
@@ -27,6 +28,7 @@ app.use("/api/v1/lessons", lessonRoutes); // Lessons: CRUD
 app.use("/api/v1/stats", statsRoutes); // Stats: dashboard
 app.use("/api/v1/vocabularies", vocabularyRoutes); // Vocabularies: CRUD
 app.use("/api/v1/saved-vocabularies", savedVocabularyRoutes); // Saved Vocabularies: bookmark
+app.use("/api/v1/learning-progress", learningProgressRoutes); // Learning Progress: streak
 
 // Backwards compatibility - old API routes (có thể xóa sau)
 app.use("/api", authRoutes); // /api/login, /api/register

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../features/home/presentation/pages/home_page.dart';
 import '../features/auth/presentation/pages/login_page.dart';
 import '../features/auth/presentation/pages/register_page.dart';
 import '../features/topics/presentation/pages/topics_page.dart';
@@ -11,6 +10,9 @@ import '../features/admin/presentation/pages/admin_home_page.dart';
 import '../features/admin/presentation/pages/admin_topics_page.dart';
 import '../features/admin/presentation/pages/admin_topic_lessons_page.dart';
 import '../features/admin/presentation/pages/admin_lesson_vocabulary_page.dart';
+import '../features/navigation/presentation/pages/main_navigation_page.dart';
+import '../features/chat/presentation/pages/chat_page.dart';
+import '../features/settings/presentation/pages/settings_page.dart';
 import '../data/models/topic_model.dart';
 import '../data/models/lesson_model.dart';
 
@@ -21,6 +23,8 @@ class AppRouter {
   static const String topics = '/topics';
   static const String profile = '/profile';
   static const String savedVocabularies = '/saved-vocabularies';
+  static const String chat = '/chat';
+  static const String settings = '/settings';
 
   // Admin routes
   static const String adminHome = '/admin';
@@ -48,7 +52,19 @@ class AppRouter {
         } else {
           user = settings.arguments;
         }
-        return MaterialPageRoute(builder: (_) => HomePage(user: user));
+        return MaterialPageRoute(
+          builder: (_) => MainNavigationPage(user: user),
+        );
+      case chat:
+        return MaterialPageRoute(builder: (_) => const ChatPage());
+      case AppRouter.settings:
+        dynamic user;
+        if (settings.arguments is Map<String, dynamic>) {
+          user = (settings.arguments as Map<String, dynamic>)['user'];
+        } else {
+          user = settings.arguments;
+        }
+        return MaterialPageRoute(builder: (_) => SettingsPage(user: user));
       case savedVocabularies:
         return MaterialPageRoute(builder: (_) => const SavedVocabulariesPage());
       case topics:
