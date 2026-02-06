@@ -10,6 +10,7 @@ import '../features/admin/presentation/pages/admin_home_page.dart';
 import '../features/admin/presentation/pages/admin_topics_page.dart';
 import '../features/admin/presentation/pages/admin_topic_lessons_page.dart';
 import '../features/admin/presentation/pages/admin_lesson_vocabulary_page.dart';
+import '../features/admin/presentation/pages/admin_quiz_management_page.dart';
 import '../features/navigation/presentation/pages/main_navigation_page.dart';
 import '../features/chat/presentation/pages/chat_page.dart';
 import '../features/settings/presentation/pages/settings_page.dart';
@@ -109,9 +110,7 @@ class AppRouter {
         );
       case adminQuizzes:
         return MaterialPageRoute(
-          builder: (_) => const Scaffold(
-            body: Center(child: Text('Quản lý Bài kiểm tra - Đang phát triển')),
-          ),
+          builder: (_) => const AdminQuizManagementPage(),
         );
       case adminUsers:
         return MaterialPageRoute(

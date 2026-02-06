@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../data/datasources/stats_service.dart';
+import '../../../topics/presentation/pages/available_quizzes_page.dart';
 
 class HomePage extends StatefulWidget {
   final dynamic user;
@@ -420,8 +421,21 @@ class _HomePageState extends State<HomePage>
             label: 'Kiểm tra',
             color: const Color(0xFFFF9800),
             onTap: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Đang phát triển...')),
+              if (userId == null) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Vui lòng đăng nhập để làm bài kiểm tra'),
+                    backgroundColor: Colors.orange,
+                  ),
+                );
+                return;
+              }
+
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AvailableQuizzesPage(userId: userId!),
+                ),
               );
             },
           ),
